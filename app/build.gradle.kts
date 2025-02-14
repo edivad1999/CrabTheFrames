@@ -9,11 +9,11 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.edivad1999.sample"
+        applicationId = "com.edivad1999.CrabTheFrames"
         minSdk = 30
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = getBuildNumber()
+        versionName = getVersionName()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -59,3 +59,5 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(project(":frameextractor"))
 }
+fun getBuildNumber() = System.getenv("BUILD_NUMBER")?.toIntOrNull() ?: 1
+fun getVersionName() = System.getenv("VERSION_NAME")?.takeIf { it.isNotEmpty() } ?: "1.0.0"

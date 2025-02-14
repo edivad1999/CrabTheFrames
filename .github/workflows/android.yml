@@ -6,6 +6,8 @@ on:
 
 env:
   BUILD_NUMBER: ${{ github.run_number }}
+  VERSION_NAME: 1.0.${{ github.run_number }}
+
 
 jobs:
   build:
@@ -27,9 +29,10 @@ jobs:
         with:
           cache-overwrite-existing: true
 
-      - name: Set Build Number in Gradle
+      - name: Set Environment Variables
         run: |
-          sed -i 's/versionCode [0-9]\+/versionCode $BUILD_NUMBER/g' app/build.gradle
+          echo "BUILD_NUMBER=${{ github.run_number }}" >> $GITHUB_ENV
+          echo "VERSION_NAME=1.0.${{ github.run_number }}" >> $GITHUB_ENV
 
       - name: Build with Gradle
         run: ./gradlew assemble

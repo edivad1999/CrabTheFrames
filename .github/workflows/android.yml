@@ -3,8 +3,6 @@ name: Android Build
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-  workflow_dispatch:
 
 env:
   BUILD_NUMBER: ${{ github.run_number }}

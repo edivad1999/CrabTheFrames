@@ -1,0 +1,48 @@
+name: Android Build
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  BUILD_NUMBER: ${{ github.run_number }}
+
+jobs:
+  build:
+    name: Android Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+          cache: gradle
+
+      - name: Gradle Build Action
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-overwrite-existing: true
+
+      - name: Set Build Number in Gradle
+        run: |
+          sed -i 's/versionCode [0-9]\+/versionCode $BUILD_NUMBER/g' app/build.gradle
+
+      - name: Build with Gradle
+        run: ./gradlew assemble
+
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ env.BUILD_NUMBER }}
+          name: Release v${{ env.BUILD_NUMBER }}
+          body: "Automated release for build ${{ env.BUILD_NUMBER }}"
+          draft: false
+          prerelease: false
+          files: app/build/outputs/apk/release/app-release.apk

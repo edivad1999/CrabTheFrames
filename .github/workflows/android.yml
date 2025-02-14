@@ -41,9 +41,9 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ env.BUILD_NUMBER }}
-          name: Release v${{ env.BUILD_NUMBER }}
-          body: "Automated release for build ${{ env.BUILD_NUMBER }}"
+          tag_name: v${{ env.VERSION_NAME }}
+          name: Release v${{ env.VERSION_NAME }}
+          body: "Automated release for build ${{ env.VERSION_NAME }}"
           draft: false
           prerelease: false
           files: app/build/outputs/apk/release/app-release.apk

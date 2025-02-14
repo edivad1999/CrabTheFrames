@@ -2,7 +2,7 @@ name: Android Build
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 env:
   BUILD_NUMBER: ${{ github.run_number }}

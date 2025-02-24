@@ -24,6 +24,7 @@ import java.io.File
 
 class FrameExtractorViewModel : ViewModel() {
 
+    private val frameExtractor = FrameExtractor.getFrameExtractor()
     private val _ui: MutableStateFlow<FrameExtractorUi> =
         MutableStateFlow(FrameExtractorUi.SelectVideo)
     val ui = _ui.asStateFlow()
@@ -32,7 +33,7 @@ class FrameExtractorViewModel : ViewModel() {
     fun extractFrames(context: Context, videoUri: Uri) {
         extraction?.cancel()
         extraction = viewModelScope.launch {
-            FrameExtractor.extractFramesToFileAutoRate(
+            frameExtractor.extractFramesToFileAutoRate(
                 context = context,
                 videoUri = videoUri,
                 outputDir = context.cacheDir
